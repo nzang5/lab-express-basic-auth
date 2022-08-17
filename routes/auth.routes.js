@@ -9,7 +9,7 @@ const User = require('../models/User.model');
 //the signup page + create the use while making sure the user follows the model + encrypting the password for safety
 //Then, redirect to the profile page
 router.get("/signup", (req, res) => {
-    // console.log('req session', req.session);
+    console.log('req session', req.session);
     res.render("auth/signup.hbs");
   });
 
@@ -23,12 +23,12 @@ router.get("/signup", (req, res) => {
       .then(hashedPassword => {
         return User.create({
           username,
-          passwordHash: hashedPassword
+          password: hashedPassword
         });
       })
       .then(userFromDB => {
         console.log('Newly created user is: ', userFromDB);
-        // req.session.currentUser = userFromDB;
+        req.session.currentUser = userFromDB;
         res.redirect('/auth/profile.hbs');
       })
       .catch(error => console.log(error));
